@@ -1,0 +1,44 @@
+*USER SUBROUTINE
+	SUBROUTINE DFLUX(FLUX,SOL,KSTEP,KINC,TIME,NOEL,NPT,COORDS,
+      JLTYP,TEMP,PRESS,SNAME) 
+	INCLUDE 'ABA_PARAM.INC' 
+	DIMENSION FLUX(2), TIME(2), COORDS(3) 
+	CHARACTER*80 SNAME 
+*code
+
+	INTEGER flag,kstep
+	REAL t,x,y,z
+	REAL Q,a,b,cf,cr,pi,m,n
+*times
+	t=time(1)
+	Q=90*10*0.5 
+	pi=3.14159 
+	a=0.006
+	b=0.0025 
+	cf=0.003
+	cr=0.01
+	pi=3.141592
+	
+*start point parameters [m]
+	FLUX(1)=0
+	FLUX(2)=0
+
+	x=COORDS(1)
+	y=COORDS(2)
+	z=COORDS(3)
+
+
+C	FORM HEAT FLUX FROM SAMPLING POINTS
+	if(kstep.EQ.3) then
+	x1=x
+	y1=y-0.005*t
+	z1=z
+
+
+	m=exp(-3*((x1)**2/(cf)**2+(y1)**2/(a)**2+(z1)**2/(b)** 2)) 
+	n=exp(-3*((x1)**2/(cr)**2+(y1)**2/(a)**2+(z1)**2/(b)** 2)) 
+		FLUX(1)=(6*1.732*Q)*((1.4/cf)*m+(0.6/cr)*n)/(pi*sqrt(pi)*(a*b)) 
+	end if
+	
+		return
+		end
