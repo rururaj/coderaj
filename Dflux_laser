@@ -1,0 +1,22 @@
+SUBROUTINE DFLUX(FLUX,SOL,KSTEP,KINC,TIME,NOEL,NPT,COORDS,
+     1 JLTYP,TEMP,PRESS,SNAME)
+C
+      INCLUDE 'ABA_PARAM.INC'
+C
+      DIMENSION FLUX(2), TIME(2), COORDS(3)
+      CHARACTER*80 SNAME
+
+      QL=120000.d0                        !LASER POWER [mW]
+      R0=0.6d0                            !BEAM RADIUS [mm]
+      DEPTH=5.d0                          !PENETRATION DEPTH [mm]
+      Q=(QL/(R0**2*3.1415926d0*DEPTH))    !BODY FLUX [mW/mm^3] ?
+      V=5.d0                              !LASER BEAM VELOCITY [mm/s]
+      
+      X0=-13.75d0                         !STARTING COORDINATE OF THE LASER BEAM
+      Y0=-7.5d0                           !STARTING COORDINATE OF THE LASER BEAM
+      Z0=11d0                             !STARTING COORDINATE OF THE LASER BEAM
+
+      FLUX(1)=Q
+
+      RETURN
+      END 
