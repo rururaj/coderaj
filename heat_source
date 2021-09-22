@@ -1,0 +1,54 @@
+	SUBROUTINE DFLUX(FLUX,SOL,KSTEP,KINC,TIME,NOEL,NPT,COORDS,JLTYP,TEMP,PRESS,SNAME)
+	
+	INCLUDE 'ABA_PARAM.INC' 
+	
+	DIMENSION FLUX(2), TIME(2), COORDS(3) 
+	CHARACTER*80 SNAME 
+	
+	INTEGER kstep
+	REAL t,x,y,z,pi
+	REAL Q,a,b,bf,br,x1,y1,z1,x2,y2,z2,v,m,n,c
+
+	   
+		t = TIME(1)
+		pi=3.414
+		FLUX(1)=0
+		FLUX(2)=0
+!  speed of welding in y direction
+		v=0.00563
+!  coordinate
+		x = coords(1)
+		y = coords(2)
+		z = coords(3)
+!  welding arc 
+		a = 0.007
+!		b = 0.006
+		c = 0.006
+		bf = 0.005
+		br = 0.015
+		x1 = 0
+		y1 = 0+v*t
+		z1 = 0
+		
+		x2=x-x1
+		y2=y-y1
+		z2=z-z1
+!  Q=eff*Volt*curr
+		Q=0.7*25*195
+!  a welding simulation in the midle of a plate
+		if(KSTEP.EQ.1) then
+!			if(y2.LE.0) then
+!     Goldak's volumetric heat source model  
+				m=exp(-3*((x2)**2/(c)**2+(y2)**2/(bf)**2+(z2)**2/(c)**2))
+				n=exp(-3*((x2)**2/(c)**2+(y2)**2/(br)**2+(z2)**2/(c)**2))
+				FLUX(1)=(6*1.732*Q)*((1.4/bf)*m+(0.6/br)*n)/(pi*sqrt(pi)*(a*c))
+!				FLUX(1)=1.86632*Q/(a*b*c)*exp(-3*(x2**2/a**2+y2**2/b**2+z2**2/c**2))
+				else
+				FLUX(1)=0
+!			endif
+		
+		endif
+	
+	
+	RETURN
+	END
